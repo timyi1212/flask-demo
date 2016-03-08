@@ -1,0 +1,14 @@
+<title>index</title>
+
+<table  align="center" border="1" cellspacing="0"
+               cellpadding="0" width="30%" >
+<tr><td align="center">ds_name</td></tr>
+{% for ds in dslist %}
+	<tr><td align="center">{{ds}}</td></tr>
+{% endfor %}
+</table>
+<br>
+<div style="text-align:center">
+<input type="button" onclick="location.href='dbcp/dsname'"  value="新建"/>
+</div>
+
