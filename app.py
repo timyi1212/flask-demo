@@ -5,6 +5,23 @@ from flask import request
 app = Flask(__name__)
 
 
+def create(zkclient, dsname, username, passwd, url, driver):
+	zkusername = '/dbcp/' + dsname + '/username'
+	zkpasswd = '/dbcp/' + dsname + '/passwd'
+	zkurl = '/dbcp/' + dsname + '/url'
+	zkdriver = '/dbcp/' + dsname + '/driver'
+	print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' + username 
+	try:
+		zkclient.create(zkusername, value=str(username), makepath=True)
+		zkclient.create(zkpasswd, value=str(passwd), makepath=True)
+		zkclient.create(zkurl, value=str(url), makepath=True)
+		zkclient.create(zkdriver, value=str(driver), makepath=True)
+		return True
+	except Exception, e:
+		print 'exception:', e
+		raise
+		return False
+
 def initZKClient():
 	isconn = True
 	zk = KazooClient(hosts="127.0.0.1:2181")
@@ -47,12 +64,17 @@ def add():
 	url = request.form['url']
 	driver = request.form['driver']
 	dsname = request.form['dsname']
-	print username, passwd, url, driver, dsname
+	print username
+	isdone = False
 	isconn, zk = initZKClient()
 	if isconn:
-		dslist = get_children(zk)
 		
-		return render_template('index.htm',dslist=dslist)
+		isdone = create(zk, dsname, username, passwd, url, driver)
+		dslist = get_children(zk)
+		if isdone:
+			return render_template('index.htm',dslist=dslist)
+		else:
+			return('zk create failed...')
 	else:
 		return("zk connect failed...")
 

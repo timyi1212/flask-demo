@@ -33,15 +33,21 @@ def get(zkclient, appname, property):
 		print 'exception:', e
 		return None
 
-
+def create(zkclient, dsname, username, passwd, url, driver):
+	zkusername = '/dbcp/' + dsname + '/username'
+	zkpasswd = '/dbcp/' + dsname + '/passwd'
+	zkurl = '/dbcp/' + dsname + '/url'
+	zkdriver = '/dbcp/' + dsname + '/driver'
+	try:
+		zk.create(zkusername, value=username, makepath=True)
+		zk.create(zkpasswd, value=passwd, makepath=True)
+		zk.create(zkurl, value=url, makepath=True)
+		zk.create(zkdriver, value=driver, makepath=True)
+		return True
+	except Exception, e:
+		print 'exception:', e
+		return False
 
 
 isconn, zk = initZKClient()
-if isconn:
-	print get_children(zk)
-	print get(zk, 'app1-1', 'username')
-	print get(zk, 'app1-1', 'passwd')
-	print get(zk, 'app1-1', 'driver')
-	print get(zk, 'app1-1', 'url')
-else:
-	print 'b'
+zk.create('/dbcp/app33/username', value='fuckfuck', makepath=True)
