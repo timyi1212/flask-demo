@@ -4,11 +4,12 @@
                cellpadding="0" width="30%" >
 <tr><td align="center">ds_name</td></tr>
 {% for ds in dslist %}
-	<tr><td align="center">{{ds}}</td></tr>
+	<tr><td align="center"><a href='/dbcp/dsname/{{ds}}'>{{ds}}</a></td></tr>
 {% endfor %}
 </table>
 <br>
 <div style="text-align:center">
-<input type="button" onclick="location.href='/dbcp/dsname'"  value="新建"/>
+<input type="button" onclick="location.href='/dbcp/dsname'"  value="新建"/><!-- &nbsp;&nbsp;
+<input type="button" onclick="location.href='/dbcp/dsname/edit'" value="编辑"/> -->
 </div>
 

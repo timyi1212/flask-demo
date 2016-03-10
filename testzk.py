@@ -50,4 +50,4 @@ def create(zkclient, dsname, username, passwd, url, driver):
 
 
 isconn, zk = initZKClient()
-zk.create('/dbcp/app33/username', value='fuckfuck', makepath=True)
+zk.delete('/dbcp/app2-50000000005', recursive=True)
